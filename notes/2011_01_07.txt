@@ -1,0 +1,18 @@
+------------------------------
+Programming Language
+------------------------------
+
+  * Formalized system to exchange ideas
+  * Standard of communication
+  * Translator
+
+  Why so many?
+    The Good:
+      * Ideas can be expressed multiple ways
+      * Personal preference
+      * Evolution
+        - Object Oriented, Functional
+
+    The Bad:
+      * Make money
+
