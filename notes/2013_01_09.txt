@@ -1,0 +1,45 @@
+-------------------
+What makes a language successful?
+-------------------
+  * Portability
+  * User friendliness
+  * Cost
+  * Endorsement
+  * Learnability
+
+
+-------------------
+Why study programming languages?
+-------------------
+  * Help choose the right language
+  * Make it easier to learn languages
+  * Make better use of languages you already know
+
+
+
+-------------------
+Imperative vs Declarative languages
+-------------------
+
+  Imperative
+    * Very prescriptive about telling the computer what to do
+    * Object-oriented
+    * Scripting languages
+
+  Declarative
+    * What you want done, but not how to do it
+    * Functional
+
+
+-------------------
+Compilation vs Interpretation
+-------------------
+
+  Compilation
+    * Process the entire program at one time
+    * Heavy lifting all at once
+
+  Interpretation
+    * Process lines as they come in
+    * Lighter weight but must process on the fly
+
