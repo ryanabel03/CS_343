@@ -1,0 +1,24 @@
+--------------------
+Phases of compilation
+--------------------
+
+  * Scanning
+    -- Lexical analysis
+    -- Do tokens exist correctly?
+    -- Regular expressions
+
+  * Parsing
+    -- Syntax analysis
+    -- Regular expressions can't do some things, like counting parenthesis
+    -- Compiler uses rules to build a tree for entire program
+
+  * Semantic analysis
+    -- Discovery of meaning in the program
+
+    -- Static
+      * Meanings can be determined at compile time
+      * Referencing undeclared variable
+
+    -- Dynamic
+      * Meaning isn't determined until run time.
+      * Array out of bounds
