@@ -1,0 +1,35 @@
+------------------------
+Context-free grammar example
+------------------------
+
+  Program => package_stmt import_section  class
+
+
+  package_stmt => PACKAGE package_name;
+    package_name => NAME
+    package_name => NAME.package_name
+
+
+  import_section => Epsilon (Blank)
+  import_section => import_statement import_section
+    import_statement => IMPORT import_name
+      import_name => NAME.*;
+      import_name => NAME.package_name;
+      import_name => NAME.package_name.*;
+
+
+  class_section => VISIBILITY CLASS NAME { class_content }
+    VISIBILITY => Public, Private, Protected, Epsilon (Blank)
+    class_content => STATEMENT class_content
+      STATEMENT => variable declaration, constructor, method, nested class, static block
+
+
+------------------------
+Intro to C
+------------------------
+  
+  #include
+    * think import statement in Java
+
+  Header files
+    * variable and method declarations
