@@ -31,9 +31,25 @@ void ex_length10_partial_miss(CuTest *tc) {
    CuAssertIntEquals_Msg(tc, "Length 4 to win.  Array length 10.  Miss", -1, observed);
 }
 
+void it_ignores_four_empty_spaces(CuTest *tc) {
+  int array[] = {1, 2, 1, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, 1};
+   int observed = x_in_a_row(array, 10, 4);
+   CuAssertIntEquals_Msg(tc, "Length 4 to win.  Array length 10.  Miss", -1, observed);
 
+}
 
-/* Length 0 input */
+void it_requires_a_win_length_greater_than_one(CuTest *tc) {
+  int array[] = {1, 2, 1, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, 1};
+   int observed = x_in_a_row(array, 10, 1);
+   CuAssertIntEquals_Msg(tc, "Length to win must be greater than 1.", -1, observed);
+}
+
+void it_requires_rows_greater_than_zero(CuTest *tc) {
+  int array[] = {1, 2, 1, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, 1};
+   int observed = x_in_a_row(array, 0, 3);
+   CuAssertIntEquals_Msg(tc, "Row must be greater than 0", -1, observed);
+}
+
 
 void ex_length_zero_array_always_false(CuTest *tc) {
    int array[] = {};
@@ -55,6 +71,9 @@ CuSuite* x_in_a_row_example_suite() {
    SUITE_ADD_TEST(suite, ex_length10_full_miss);
    SUITE_ADD_TEST(suite, ex_length10_partial_miss);
    SUITE_ADD_TEST(suite, ex_length_zero_array_always_false);
+   SUITE_ADD_TEST(suite, it_ignores_four_empty_spaces);
+   SUITE_ADD_TEST(suite, it_requires_a_win_length_greater_than_one);
+   SUITE_ADD_TEST(suite, it_requires_rows_greater_than_zero);
    return suite;
 }
 
@@ -67,6 +86,7 @@ int main(void) {
   CuSuiteSummary(suite, output);
   CuSuiteDetails(suite, output);
   printf("%s\n", output->buffer);
+  return 0;
 }
 
 
