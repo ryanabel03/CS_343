@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 int x_in_a_row(int array[], int size, int length_to_win) {
   int count = 1;
   int player = -1;
