@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include "connect4_engine.h"
+
+#define EMPTY -1
 
 int checkRows(int rows, int columns, int array[rows][columns], int length_to_win) {
   int i, j, player = -1;
@@ -170,4 +173,40 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   winner = checkRightDiagonal(num_rows, num_columns, array, length_to_win);
 
   return winner;
+}
+
+void create_board(int num_rows, int num_cols, int array[num_rows][num_cols]) {
+  int r, c;
+  for (r = 0; r < num_rows; r++) {
+    for (c = 0; c < num_cols; c++) {
+      array[r][c] = EMPTY;
+    }
+  }
+}
+
+int full_board(int num_rows, int num_cols, int array[num_rows][num_cols]) {
+  int r, c;
+  for(r = 0; r < num_rows; r++) {
+    for(c = 0; c < num_cols; c++) {
+      if(array[r][c] == EMPTY) {
+        return -1;
+      }
+    }
+  }
+  return 1;
+}
+
+void printBoard(int num_rows, int num_cols, int array[num_rows][num_cols]) {
+  int r, c;
+  for(r = 0; r < num_rows; r++) {
+    for(c = 0; c < num_cols; c++) {
+      if( c == 0) {
+        printf("| %d |", array[r][c]);
+      } else if(c == num_cols -1) {
+        printf(" %d |\n", array[r][c]);
+      } else {
+        printf(" %d |", array[r][c]);
+      }
+    }
+  }
 }
