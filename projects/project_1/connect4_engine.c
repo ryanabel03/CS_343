@@ -175,7 +175,7 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   return winner;
 }
 
-void create_board(int num_rows, int num_cols, int array[num_rows][num_cols]) {
+void createBoard(int num_rows, int num_cols, int array[num_rows][num_cols]) {
   int r, c;
   for (r = 0; r < num_rows; r++) {
     for (c = 0; c < num_cols; c++) {
@@ -184,7 +184,7 @@ void create_board(int num_rows, int num_cols, int array[num_rows][num_cols]) {
   }
 }
 
-int full_board(int num_rows, int num_cols, int array[num_rows][num_cols]) {
+int fullBoard(int num_rows, int num_cols, int array[num_rows][num_cols]) {
   int r, c;
   for(r = 0; r < num_rows; r++) {
     for(c = 0; c < num_cols; c++) {

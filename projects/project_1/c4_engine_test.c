@@ -184,6 +184,42 @@ void checkColumns_does_not_recognize_negative_one_as_winner(CuTest *tc) {
   CuAssertIntEquals_Msg(tc, "No one wins", -1, answer);
 }
 
+
+void fullBoard_notices_a_full_board(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  board[0][0] = 0;
+  board[0][1] = 0;
+  board[0][2] = 0;
+  board[1][0] = 0;
+  board[1][1] = 0;
+  board[1][2] = 0;
+  board[2][0] = 0;
+  board[2][1] = 0;
+  board[2][2] = 0;
+
+  int answer = fullBoard(3, 3, board);
+  CuAssertIntEquals_Msg(tc, "Full board", 1, answer);
+}
+
+void fullBoard_notices_an_empty_board(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  board[0][1] = 0;
+  board[0][2] = 0;
+  board[1][0] = 0;
+  board[1][1] = 0;
+  board[1][2] = 0;
+  board[2][0] = 0;
+  board[2][1] = 0;
+  board[2][2] = 0;
+
+  int answer = fullBoard(3, 3, board);
+  CuAssertIntEquals_Msg(tc, "Full board", -1, answer);
+}
+
 /*******************************************************************************************
  *
  * Test winner function
@@ -542,6 +578,9 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_below_largest_diagonal);
    SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards);
    SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner);
+
+   SUITE_ADD_TEST(suite, fullBoard_notices_a_full_board);
+   SUITE_ADD_TEST(suite, fullBoard_notices_an_empty_board);
 
    SUITE_ADD_TEST(suite, horizontal_row0);
    SUITE_ADD_TEST(suite, vertical_column1);
