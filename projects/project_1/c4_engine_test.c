@@ -14,52 +14,174 @@ void ct_initialize(int num_rows, int num_cols, int array[num_rows][num_cols]) {
   }
 }
 
+void checkRightDiagonal_returns_winner_if_there_is_one(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  board[0][0] = 0;
+  board[1][1] = 0;
+  board[2][2] = 0;
+
+  int answer = checkRightDiagonal(3, 3, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
+}
+
+void checkRightDiagonal_returns_negative_one_if_no_winner(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  int answer = checkRightDiagonal(3, 3, board, 3);
+  CuAssertIntEquals_Msg(tc, "No winner.", -1, answer);
+}
+
+void checkRightDiagonal_can_find_winners_above_largest_diagonal(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(3, 3, board);
+
+  board[1][0] = 0;
+  board[2][1] = 0;
+  board[3][2] = 0;
+
+  int answer = checkRightDiagonal(4, 4, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
+}
+
+void checkRightDiagonal_can_find_winners_below_largest_diagonal(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(3, 3, board);
+
+  board[0][1] = 0;
+  board[1][2] = 0;
+  board[2][3] = 0;
+
+  int answer = checkRightDiagonal(4, 4, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
+}
+
+void checkRightDiagonal_can_use_larger_boards(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[1][2] = 1;
+  board[2][3] = 1;
+  board[3][4] = 1;
+
+  int answer = checkRightDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 1, answer);
+}
+
+
+
+void checkLeftDiagonal_can_find_winners_above_largest_diagonal(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[4][2] = 1;
+  board[3][3] = 1;
+  board[2][4] = 1;
+
+  int answer = checkLeftDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 1, answer);
+}
+
+void checkLeftDiagonal_can_find_winners_above_below_largest_diagonal(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[3][0] = 1;
+  board[2][1] = 1;
+  board[1][2] = 1;
+
+  int answer = checkLeftDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 1, answer);
+}
+
+void checkLeftDiagonal_returns_winner_if_there_is_one(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  board[2][0] = 0;
+  board[1][1] = 0;
+  board[0][2] = 0;
+
+  int answer = checkLeftDiagonal(3, 3, board, 3);
+  CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
+}
+
+void checkLeftDiagonal_returns_negative_one_if_no_winner(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  int answer = checkLeftDiagonal(3, 3, board, 3);
+  CuAssertIntEquals_Msg(tc, "No winner.", -1, answer);
+
+}
+
 void checkRows_returns_winner_if_exists(CuTest *tc) {
   int board[4][4];
-  int array[4] = {0, 0, 0, 0};
   ct_initialize(4, 4, board);
+  board[3][0] = 1;
+  board[3][1] = 1;
+  board[3][2] = 1;
+  board[3][3] = 1;
 
-  int answer = checkRows(4, array, 4);
-  CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
+  int answer = checkRows(4, 4, board, 4);
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 }
 
 void checkRows_returns_negative_one_if_no_winner(CuTest *tc) {
   int board[4][4];
-  int array[4] = {0, 0, 1, 0};
   ct_initialize(4, 4, board);
+  board[3][0] = 1;
+  board[3][1] = -1;
+  board[3][2] = 1;
+  board[3][3] = 1;
 
-  int answer = checkRows(4, array, 4);
+  int answer = checkRows(4, 4, board, 4);
   CuAssertIntEquals_Msg(tc, "No winner", -1, answer);
 }
 
-void winner_returns_horizontal_winner(CuTest *tc) {
-  int board[4][4];
-  ct_initialize(4, 4, board);
 
-  board[0][0] = 1;
-  board[1][0] = 1;
-  board[2][0] = 1;
-  board[3][0] = 1;
-
-  int answer = winner(4, 4, 4, board); 
-  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
-
-
-}
 
 void checkColumns_returns_winner_if_one_exists(CuTest *tc) {
   int board[4][4];
   ct_initialize(4, 4, board);
 
-  board[1][0] = 1;
+  board[0][1] = 1;
   board[1][1] = 1;
-  board[1][2] = 1;
-  board[1][3] = 1;
+  board[2][1] = 1;
+  board[3][1] = 1;
 
-  int answer = winner(4, 4, 4, board); 
+  int answer = checkColumns(4, 4, board,  4); 
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 
 
+}
+
+void checkColumns_returns_negative_one_if_no_winner(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(4, 4, board);
+
+  board[0][1] = 1;
+  board[1][1] = 1;
+  board[2][1] = 0;
+  board[3][1] = 1;
+
+  int answer = winner(4, 4, 4, board); 
+  CuAssertIntEquals_Msg(tc, "No one wins", -1, answer);
+}
+
+void checkColumns_does_not_recognize_negative_one_as_winner(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(4, 4, board);
+
+  board[0][1] = -1;
+  board[1][1] = -1;
+  board[2][1] = -1;
+  board[3][1] = -1;
+
+  int answer = winner(4, 4, 4, board); 
+  CuAssertIntEquals_Msg(tc, "No one wins", -1, answer);
 }
 
 /*******************************************************************************************
@@ -74,22 +196,60 @@ void checkColumns_returns_winner_if_one_exists(CuTest *tc) {
  * Note:  Be sure to add tests for different directions, quadrants, and board sizes.
  *
  ******************************************************************************************/
-void winner_horizontal_r0(CuTest *tc) {
+void winner_returns_horizontal_winner(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(4, 4, board);
 
-  int num_rows = 7;
-  int num_columns = 7;
-  int array[num_rows][num_columns];
-  int answer;
-  ct_initialize(num_rows, num_columns, array);
+  board[1][0] = 1;
+  board[1][1] = 1;
+  board[1][2] = 1;
+  board[1][3] = 1;
 
-  array[0][0] = 0;
-  array[0][1] = 0;
-  array[0][2] = 0;
-  array[0][3] = 0;
-
-  answer = winner(num_rows, num_columns, 4, array);
-  CuAssertIntEquals_Msg(tc, "0s in bottom row", 0, answer);
+  int answer = winner(4, 4, 4, board); 
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 }
+
+
+void winner_returns_vertical_winner(CuTest *tc) {
+  int board[4][4];
+  ct_initialize(4, 4, board);
+
+  board[0][2] = 1;
+  board[1][2] = 1;
+  board[2][2] = 1;
+  board[3][2] = 1;
+
+  int answer = winner(4, 4, 4, board); 
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
+}
+
+void winner_returns_right_diagonal_winner(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[0][0] = 1;
+  board[1][1] = 1;
+  board[2][2] = 1;
+  board[3][3] = 1;
+
+  int answer = winner(5, 5, 4, board); 
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
+
+}
+
+void winner_returns_left_diagonal_winner(CuTest *tc) {
+  int board[3][3];
+  ct_initialize(3, 3, board);
+
+  board[2][0] = 1;
+  board[1][1] = 1;
+  board[0][2] = 1;
+
+  int answer = winner(3, 3, 3, board); 
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
+
+}
+
 
 /*******************************************************************************************
  *
@@ -356,19 +516,37 @@ void backward_diagonal(CuTest* tc)
 
 CuSuite* c4_engine_suite() {
    CuSuite* suite = CuSuiteNew();
-   SUITE_ADD_TEST(suite, checkRows_returns_winner_if_exists);
-   SUITE_ADD_TEST(suite, checkRows_returns_negative_one_if_no_winner);
 
-   /* SUITE_ADD_TEST(suite, winner_horizontal_r0); */
    SUITE_ADD_TEST(suite, place_token_c1);
    SUITE_ADD_TEST(suite, place_token_recognizes_already_placed_tokens);
    SUITE_ADD_TEST(suite, winner_returns_horizontal_winner);
-   SUITE_ADD_TEST(suite, checkColumns_returns_winner_if_one_exists);
+   SUITE_ADD_TEST(suite, winner_returns_vertical_winner);
+   SUITE_ADD_TEST(suite, winner_returns_left_diagonal_winner);
+   SUITE_ADD_TEST(suite, winner_returns_right_diagonal_winner);
 
-   /* SUITE_ADD_TEST(suite, horizontal_row0); */
-   /* SUITE_ADD_TEST(suite, vertical_column1); */
-   /* SUITE_ADD_TEST(suite, forward_diagonal); */
-   /* SUITE_ADD_TEST(suite, backward_diagonal); */
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_below_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_winner_if_there_is_one);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_negative_one_if_no_winner);
+
+   SUITE_ADD_TEST(suite, checkRows_returns_winner_if_exists);
+   SUITE_ADD_TEST(suite, checkRows_returns_negative_one_if_no_winner);
+
+   SUITE_ADD_TEST(suite, checkColumns_returns_winner_if_one_exists);
+   SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkColumns_does_not_recognize_negative_one_as_winner);
+
+   SUITE_ADD_TEST(suite, checkRightDiagonal_returns_winner_if_there_is_one);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_above_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_below_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner);
+
+   SUITE_ADD_TEST(suite, horizontal_row0);
+   SUITE_ADD_TEST(suite, vertical_column1);
+   SUITE_ADD_TEST(suite, forward_diagonal);
+   SUITE_ADD_TEST(suite, backward_diagonal);
    return suite;
 }
 
