@@ -31,8 +31,10 @@ void stackPush(stack* stkPtr, stkElement element) {
 
 stkElement stackPop(stack* stkPtr) {
   if(stkPtr->top) {
-    stkElement elem = stkPtr->top->element;
-    stkPtr->top = stkPtr->top->next;
+    stkNode* node = stkPtr->top;
+    stkElement elem = node->element;
+    stkPtr->top = node->next;
+    free(node);
     return elem;
   }
   return NULL;
@@ -46,11 +48,14 @@ stkElement stackPeek(stack* stkPtr) {
 }
 
 bool stackIsEmpty(stack* stkPtr) {
-  if(stkPtr->top->element == NULL) {
-    return 1;
-  } else {
-    return 0;
+  if(stkPtr->top) {
+    if(stkPtr->top->element == NULL) {
+      return true;
+    } else {
+      return false;
+    }
   }
+  return true;
 }
 
 int stackLength(stack* stkPtr) {

@@ -1,99 +1,200 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include "stack.h"
 
-int isOperator(char letter) {
-  if(letter == '*' || letter == '/' || letter == '+' || letter == '-' || letter == '^' || letter == '%') {
+int checkToken(char* token, char* item) {
+  if(strstr(token, item)) {
     return 1;
   } else {
     return 0;
   }
 }
 
-int inputPrecedence(char operand) {
-  if(operand == '(') {
+int isLeftParen(char* token) {
+  return checkToken(token, "(");
+}
+
+int isRightParen(char* token) {
+  return checkToken(token, ")");
+}
+
+int isOperator(char* token) {
+  if(checkToken(token, "*") ||checkToken(token, "/") || 
+     checkToken(token, "+") || checkToken(token, "-") || 
+     checkToken(token, "%") || checkToken(token, "%") || checkToken(token, "^")) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+int inputPrecedence(char* operator) {
+  if(strstr(operator, "(")) {
     return 5;
-  } else if(operand == '^') {
+
+  } else if(strstr(operator, "^")) {
     return 4;
-  }else if(operand == '*' || operand == '/' || operand == '%') {
+
+  } else if(strstr(operator, "*") || strstr(operator, "/") || strstr(operator, "%")) {
     return 2;
+
   } else {
     return 1;
+
   }
 }
 
-int stackPrecedence(char* operand) {
-  if(strstr(operand, "(")) {
+int stackPrecedence(char* operator) {
+  if(strstr(operator, "(")) {
     return -1;
-  } else if(strstr(operand, "^")) {
+
+  } else if(strstr(operator, "^")) {
     return 3;
-  }else if(strstr(operand, "*") || strstr(operand, "/") || strstr(operand, "%")) {
+
+  } else if(strstr(operator, "*") || strstr(operator, "/") || strstr(operator, "%")) {
     return 2;
+
   } else {
     return 1;
+
   }
 }
 
-void popHigherOperators(char* str, stack *stkPtr, char operand) {
-  int inPrecedence = inputPrecedence(operand);
-  int stkPrecedence = stackPrecedence(stackPeek(stkPtr)) ;
-  printf("Stack precedence %d for %s\n", stkPrecedence, stackPeek(stkPtr));
+void popHigherOps(stack* s1, char* token, char* expression) {
+  int inPrec = inputPrecedence(token);
+  char* stkOp = stackPeek(s1);
+  int stkPrec = stackPrecedence(stkOp);
+  printf("Stack(%s): %d Input(%s): %d\n", stkOp, stkPrec, token, inPrec);
 
-  while(stkPrecedence >= inPrecedence) {
-    char* stackOperand = stackPop(stkPtr);
-    str[strlen(str)] = *stackOperand;
-    stkPrecedence = stackPrecedence(stackPop(stkPtr));
+  while(stkPrec >= inPrec) {
+    char* op = stackPop(s1);
+    strcat(expression, op);
+    strcat(expression, " ");
+    if(!stackIsEmpty(s1)) {
+      stkPrec = stackPrecedence(op);
+    } else {
+      break;
+    }
+  }
+
+  stackPush(s1, token);
+}
+
+int doOperation(stack* s1, char* operator) {
+  int a = atoi(stackPop(s1));
+  int b = atoi(stackPop(s1));
+  printf("wtf is operator? %s\n", operator);
+
+  if(strstr(operator, "*")) {
+    printf("evaluating %d * %d\n", a, b);
+    return a * b;
+
+  } else if(strstr(operator, "^")) {
+    printf("evaluating %d ^ %d\n", b, a);
+    int answer = pow(b, a);
+    printf("wtf is answer %d\n", answer);
+    return answer;
+
+  } else if(strstr(operator, "-"))  {
+    printf("evaluating %d - %d\n", a, b);
+    return b - a;
+
+  } else if(strstr(operator, "/"))  {
+    printf("evaluating %d / %d\n", a, b);
+    return a / b;
+
+  } else if(strstr(operator, "%")) {
+    printf("evaluating %d % %d\n", a, b);
+    return a % b;
+
+  } else {
+    printf("evaluating %d + %d\n", a, b);
+    return a + b;
+  }
+}
+
+void popOpsNotLeftParen(stack* s1, char* expression) {
+  char* token = stackPop(s1);
+
+  while(!strstr(token, "(")) {
+    strcat(expression, token);
+    strcat(expression, " ");
+    token = stackPop(s1);
   }
 }
 
 char* infixToPostfix(char* infixStr) {
-  char* expression = "(3+3) * 8";
-  char str[1024];
+  char expression[1024];
+
   stack s1;
   stackInit(&s1);
 
-  int i = 0;
-  int len = strlen(expression);
+  char* token = strtok(infixStr, " ");
 
-  for(i = 0; i < len; i++) {
-    char letter = expression[i];
-    
-    printf("letter? %c\n", letter);
+  while(token != NULL) {
+    if(isLeftParen(token)) {
+      stackPush(&s1, token);
 
-    if(letter == ' ') {
-    } else if(letter == '(') {
-      stackPush(&s1, &letter); 
-      //PUSH onto stack
-      
-    } else if(isOperator(letter)) {
-      popHigherOperators(str, &s1, letter);
-      stackPush(&s1, &letter);
-      //DO operator things
+    } else if(isRightParen(token)) {
+      popOpsNotLeftParen(&s1, expression);
 
-
-    } else if(letter == ')') {
-      //DO Right paren thing
-
+    } else if(isOperator(token)) {
+      if(!stackIsEmpty(&s1)) {
+        popHigherOps(&s1, token, expression);
+      } else {
+        stackPush(&s1, token);
+      }
     } else {
       //Number
-      str[strlen(str)] = letter;
+      strcat(expression, token);
+      strcat(expression, " ");
     }
+    token = strtok(NULL, " ");
   }
 
-  printf("%s", str);
+  while(!stackIsEmpty(&s1)) {
+    strcat(expression, stackPop(&s1));
+    strcat(expression, " ");
+  }
 
+  printf("%s\n", expression);
 
-  return NULL;
-
+  return expression;
 }
 
+
 int evaluatePostfix(char* postfixStr) {
+  int answer = 0;
+  char tostring[1024];
+
+  stack s1;
+  stackInit(&s1);
+
+  char* token = strtok(postfixStr, " ");
+
+  while(token != NULL) {
+    if(isOperator(token)) {
+      answer = doOperation(&s1, token);
+      printf("Answer is %d\n", answer);
+      sprintf(tostring, "%d", answer);
+      stackPush(&s1, tostring);
+    } else {
+      stackPush(&s1, token);
+    }
 
 
+    token = strtok(NULL, " ");
+  }
+  return atoi(stackPop(&s1));
 }
 
 int main() {
-  infixToPostfix("blah");
+  char blah[] = "( 3 + 3 ) * 8";
+  char arr[] = "3 4 2 5 ^ - * 6 +";
+  int wtf = evaluatePostfix(arr);
+  printf("%d", wtf);
 
   return 0;
 
