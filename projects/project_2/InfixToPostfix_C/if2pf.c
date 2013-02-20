@@ -124,7 +124,7 @@ char* infixToPostfix(char* infixStr) {
 
   stack s1;
   stackInit(&s1);
-
+  
   char* token = strtok(infixStr, " ");
 
   while(token != NULL) {
@@ -159,9 +159,7 @@ char* infixToPostfix(char* infixStr) {
 
 int evaluatePostfix(char* postfixStr) {
   int answer = 0;
-  char tostring[1024];
-  char* ans;
-  ans = tostring;
+  char* ans = malloc (sizeof(char) * 1024);
 
   stack s1;
   stackInit(&s1);
@@ -171,8 +169,8 @@ int evaluatePostfix(char* postfixStr) {
   while(token != NULL) {
     if(isOperator(token)) {
       answer = doOperation(&s1, token);
-      sprintf(tostring, "%d", answer);
-      stackPush(&s1, tostring);
+      snprintf(ans, 1024, "%d", answer);
+      stackPush(&s1, ans);
     } else {
       stackPush(&s1, token);
     }
@@ -180,5 +178,7 @@ int evaluatePostfix(char* postfixStr) {
 
     token = strtok(NULL, " ");
   }
+
+  free(ans);
   return atoi(stackPop(&s1));
 }
