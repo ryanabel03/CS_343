@@ -152,7 +152,7 @@ void checkColumns_returns_winner_if_one_exists(CuTest *tc) {
   board[2][1] = 1;
   board[3][1] = 1;
 
-  int answer = checkColumns(4, 4, board,  4); 
+  int answer = checkColumns(4, 4, board,  4);
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 
 
@@ -167,7 +167,7 @@ void checkColumns_returns_negative_one_if_no_winner(CuTest *tc) {
   board[2][1] = 0;
   board[3][1] = 1;
 
-  int answer = winner(4, 4, 4, board); 
+  int answer = winner(4, 4, 4, board);
   CuAssertIntEquals_Msg(tc, "No one wins", -1, answer);
 }
 
@@ -180,7 +180,7 @@ void checkColumns_does_not_recognize_negative_one_as_winner(CuTest *tc) {
   board[2][1] = -1;
   board[3][1] = -1;
 
-  int answer = winner(4, 4, 4, board); 
+  int answer = winner(4, 4, 4, board);
   CuAssertIntEquals_Msg(tc, "No one wins", -1, answer);
 }
 
@@ -241,7 +241,7 @@ void winner_returns_horizontal_winner(CuTest *tc) {
   board[1][2] = 1;
   board[1][3] = 1;
 
-  int answer = winner(4, 4, 4, board); 
+  int answer = winner(4, 4, 4, board);
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 }
 
@@ -255,7 +255,7 @@ void winner_returns_vertical_winner(CuTest *tc) {
   board[2][2] = 1;
   board[3][2] = 1;
 
-  int answer = winner(4, 4, 4, board); 
+  int answer = winner(4, 4, 4, board);
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 }
 
@@ -268,7 +268,7 @@ void winner_returns_right_diagonal_winner(CuTest *tc) {
   board[2][2] = 1;
   board[3][3] = 1;
 
-  int answer = winner(5, 5, 4, board); 
+  int answer = winner(5, 5, 4, board);
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 
 }
@@ -281,7 +281,33 @@ void winner_returns_left_diagonal_winner(CuTest *tc) {
   board[1][1] = 1;
   board[0][2] = 1;
 
-  int answer = winner(3, 3, 3, board); 
+  int answer = winner(3, 3, 3, board);
+  CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
+
+}
+
+void winner_fixes_kurmas_failure(CuTest *tc) {
+  int board[8][8];
+  ct_initialize(8, 8, board);
+
+  board[7][1] = 0;
+  board[6][1] = 1;
+  board[5][1] = 0;
+  board[4][1] = 1;
+
+  board[7][2] = 1;
+  board[6][2] = 0;
+  board[5][2] = 1;
+  board[4][2] = 0;
+
+  board[7][3] = 0;
+  board[6][3] = 1;
+  board[5][3] = 0;
+  board[4][3] = 1;
+
+  board[7][4] = 1;
+
+  int answer = winner(8, 8, 4, board);
   CuAssertIntEquals_Msg(tc, "Player 1.", 1, answer);
 
 }
@@ -310,11 +336,11 @@ void place_token_c1(CuTest *tc) {
   place_token(1, 3, num_rows, num_columns, array);
 
   // make sure there is a 1 at the bottom of column 3 and a -1 everywhere else
-  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[0][3]);
+  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[num_rows - 1][3]);
   int r, c;
   for (r = 0; r < num_rows; r++) {
     for (c = 0; c < num_columns; c++) {
-      if (r != (0) || c != 3) {
+      if (r != (num_rows - 1) || c != 3) {
 	CuAssertIntEquals_Msg(tc, "Should be empty", EMPTY, array[r][c]);
       }
     }
@@ -330,8 +356,8 @@ void place_token_recognizes_already_placed_tokens(CuTest *tc) {
   place_token(0, 2, num_rows, num_columns, array);
   place_token(1, 2, num_rows, num_columns, array);
 
-  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 0, array[0][2]);
-  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[1][2]);
+  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 0, array[num_rows - 1][2]);
+  CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[num_rows - 2][2]);
 
 }
 
@@ -354,7 +380,7 @@ void place_token_recognizes_already_placed_tokens(CuTest *tc) {
  *
  ******************************************************************************************/
 
-void horizontal_row0(CuTest* tc) 
+void horizontal_row0(CuTest* tc)
 {
   int num_rows = 7;
   int num_columns = 7;
@@ -382,7 +408,7 @@ void horizontal_row0(CuTest* tc)
 }
 
 
-void vertical_column1(CuTest* tc) 
+void vertical_column1(CuTest* tc)
 {
   int num_rows = 7;
   int num_columns = 7;
@@ -409,7 +435,7 @@ void vertical_column1(CuTest* tc)
   CuAssertIntEquals_Msg(tc, "4 in a row, vertical", 0, answer);
 }
 
-void forward_diagonal(CuTest* tc) 
+void forward_diagonal(CuTest* tc)
 {
  /*
     . . . . . . .
@@ -419,7 +445,7 @@ void forward_diagonal(CuTest* tc)
     . . . 1 0 . .
     . . . 0 0 0 .
     1 . . 1 1 1 0
-  */ 
+  */
 
   int num_rows = 7;
   int num_columns = 7;
@@ -478,7 +504,7 @@ void forward_diagonal(CuTest* tc)
 }
 
 
-void backward_diagonal(CuTest* tc) 
+void backward_diagonal(CuTest* tc)
 {
  /*
     . . . . . . .
@@ -488,7 +514,7 @@ void backward_diagonal(CuTest* tc)
     . . 0 1 . . .
     . 0 0 0 . . .
     0 1 1 1 . 1 .
-  */ 
+  */
 
   int num_rows = 7;
   int num_columns = 7;
@@ -546,6 +572,35 @@ void backward_diagonal(CuTest* tc)
   CuAssertIntEquals_Msg(tc, "Step 11 -- Winner!", 0, answer);
 }
 
+void kurmas_test(CuTest *tc) {
+  int num_rows = 8;
+  int num_columns = 8;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
+
+  place_token(0, 1, num_rows, num_columns, array);
+  place_token(1, 1, num_rows, num_columns, array);
+  place_token(0, 1, num_rows, num_columns, array);
+  place_token(1, 1, num_rows, num_columns, array);
+
+  place_token(1, 2, num_rows, num_columns, array);
+  place_token(0, 2, num_rows, num_columns, array);
+  place_token(1, 2, num_rows, num_columns, array);
+  place_token(0, 2, num_rows, num_columns, array);
+
+  place_token(0, 3, num_rows, num_columns, array);
+  place_token(1, 3, num_rows, num_columns, array);
+  place_token(0, 3, num_rows, num_columns, array);
+  place_token(1, 3, num_rows, num_columns, array);
+
+  place_token(1, 4, num_rows, num_columns, array);
+
+  answer = winner(num_rows, num_columns, 4, array);
+
+  CuAssertIntEquals_Msg(tc, "Player 1", 1, answer);
+}
+
 
 
 /*  setup */
@@ -559,6 +614,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, winner_returns_vertical_winner);
    SUITE_ADD_TEST(suite, winner_returns_left_diagonal_winner);
    SUITE_ADD_TEST(suite, winner_returns_right_diagonal_winner);
+   SUITE_ADD_TEST(suite, winner_fixes_kurmas_failure);
 
    SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_largest_diagonal);
    SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_below_largest_diagonal);
@@ -586,6 +642,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, vertical_column1);
    SUITE_ADD_TEST(suite, forward_diagonal);
    SUITE_ADD_TEST(suite, backward_diagonal);
+   SUITE_ADD_TEST(suite, kurmas_test);
    return suite;
 }
 

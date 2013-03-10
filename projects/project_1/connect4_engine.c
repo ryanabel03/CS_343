@@ -24,7 +24,7 @@ int checkRows(int rows, int columns, int array[rows][columns], int length_to_win
 int place_token(int player, int column, int num_rows, int num_columns, int board[num_rows][num_columns]) {
   int i;
   int space = 0;
-  for(i = 0; i < num_rows; i++) {
+  for(i = num_rows - 1; i >= 0; i--) {
     if(board[i][column] == -1) {
       board[i][column] = player;
       space = 1;
@@ -35,7 +35,7 @@ int place_token(int player, int column, int num_rows, int num_columns, int board
   if(!space) {
     printf("The column you tried to place a token in is full");
     return 0;
-  } 
+  }
   return 1;
 }
 
@@ -71,7 +71,7 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
       if(array[row][column] == array[row + 1][column + 1] && array[row][column] != -1) {
         count++;
         player = array[row][column];
-      
+
         if(count == length_to_win) {
           return player;
         }
@@ -85,7 +85,7 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
     int count = 1;
     int row = 0;
     int player = -1;
-    int column; 
+    int column;
 
     for(column = startColumn; column < columns; column++) {
       if(array[row][column] == array[row + 1][column + 1] && array[row][column] != -1) {
@@ -115,7 +115,9 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
 
     for(column = startColumn; column < columns - 1; column++) {
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
+
         count++;
+
         player = array[row][column];
       }
 
@@ -132,7 +134,7 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
     int column = 0;
     int player = -1;
     int count = 1;
-  
+
     for(row = startRow; row > 0 ; row--) {
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
         count++;
@@ -165,6 +167,7 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   }
 
   winner = checkLeftDiagonal(num_rows, num_columns, array, length_to_win);
+
 
   if(winner != -1) {
     return winner;
