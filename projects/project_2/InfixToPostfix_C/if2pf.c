@@ -179,6 +179,7 @@ int evaluatePostfix(char* postfixStr) {
     token = strtok(NULL, " ");
   }
 
+  int returnAnswer = atoi(stackPop(&s1));
   free(ans);
-  return atoi(stackPop(&s1));
+  return returnAnswer;
 }

@@ -7,16 +7,15 @@ void stackInit(stack *stkPtr) {
 }
 
 void stackDestroy(stack *stkPtr) {
-  stack s1 = *stkPtr;
-  if(s1.top) {
-    while(s1.top->next) {
-      s1.top = s1.top->next;
-      free(s1.top->next);
-    }
-    free(s1.top);
-  } else {
-    free(&s1);
+  stkNode* node = stkPtr->top;
+
+  while(node != NULL) {
+    stkNode* temp = node;
+    node = node->next;
+    free(temp);
   }
+
+  free(stkPtr);
 }
 
 void stackPush(stack* stkPtr, stkElement element) {
