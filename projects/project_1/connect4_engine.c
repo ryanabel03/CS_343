@@ -21,9 +21,13 @@ int checkRows(int rows, int columns, int array[rows][columns], int length_to_win
   return -1;
 }
 
-int place_token(int player, int column, int num_rows, int num_columns, int board[num_rows][num_columns]) {
+int placeToken(int player, int column, int num_rows, int num_columns, int board[num_rows][num_columns]) {
   int i;
   int space = 0;
+  if(column >= num_columns || column < 0) {
+    printf("Cannot place token in column %d, it is outside the board\n", column);
+    return 0;
+  }
   for(i = num_rows - 1; i >= 0; i--) {
     if(board[i][column] == -1) {
       board[i][column] = player;
@@ -33,7 +37,7 @@ int place_token(int player, int column, int num_rows, int num_columns, int board
   }
 
   if(!space) {
-    printf("The column you tried to place a token in is full");
+    printf("The column you tried to place a token in is full\n");
     return 0;
   }
   return 1;
@@ -204,11 +208,23 @@ void printBoard(int num_rows, int num_cols, int array[num_rows][num_cols]) {
   for(r = 0; r < num_rows; r++) {
     for(c = 0; c < num_cols; c++) {
       if( c == 0) {
-        printf("| %d |", array[r][c]);
+        if(array[r][c] == -1) {
+          printf("|   |");
+        } else {
+          printf("| %d |", array[r][c]);
+        }
       } else if(c == num_cols -1) {
-        printf(" %d |\n", array[r][c]);
+        if(array[r][c] == -1) {
+          printf("   |\n");
+        } else {
+          printf(" %d |\n", array[r][c]);
+        }
       } else {
-        printf(" %d |", array[r][c]);
+        if(array[r][c] == -1) {
+          printf("   |");
+        } else {
+          printf(" %d |", array[r][c]);
+        }
       }
     }
   }

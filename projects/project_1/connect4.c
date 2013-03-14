@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 
   printf("Creating Board size %d x %d with length to win %d...\n\n", rows, rows, length_to_win);
 
-  create_board(rows, rows, board);
+  createBoard(rows, rows, board);
 
   int counter = 2;
   while(1) {
@@ -35,11 +35,11 @@ int main(int argc, char* argv[]) {
     fgets(line, sizeof(line), stdin);
     sscanf(line, "%d", &column);
 
-    place_token(counter % 2, column, rows, rows, board);
+    placeToken(counter % 2, column, rows, rows, board);
 
     isWinner = winner(rows, rows, length_to_win, board);
 
-    isFull = full_board(rows, rows, board);
+    isFull = fullBoard(rows, rows, board);
 
     if(isWinner != -1) {
       printf("Player %d Wins!", counter % 2);

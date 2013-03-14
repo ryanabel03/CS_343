@@ -315,25 +315,25 @@ void winner_fixes_kurmas_failure(CuTest *tc) {
 
 /*******************************************************************************************
  *
- * Test place_token function
+ * Test placeToken function
  *
  * Note: This is just a sample of how you can test your own
- * place_token function.  You may need to modify this code depending
+ * placeToken function.  You may need to modify this code depending
  * on how your organized your array.  I will not be testing your
- * place_token function directly.
+ * placeToken function directly.
  *
  * Note:  Be sure to add tests for different directions, quadrants, and board sizes.
  *
  ******************************************************************************************/
 
-void place_token_c1(CuTest *tc) {
+void placeToken_c1(CuTest *tc) {
 
   int num_rows = 7;
   int num_columns = 7;
   int array[num_rows][num_columns];
   ct_initialize(num_rows, num_columns, array);
 
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
 
   // make sure there is a 1 at the bottom of column 3 and a -1 everywhere else
   CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[num_rows - 1][3]);
@@ -347,17 +347,32 @@ void place_token_c1(CuTest *tc) {
   }
 }
 
-void place_token_recognizes_already_placed_tokens(CuTest *tc) {
+void placeToken_recognizes_already_placed_tokens(CuTest *tc) {
   int num_rows = 3;
   int num_columns = 3;
   int array[num_rows][num_columns];
   ct_initialize(num_rows, num_columns, array);
 
-  place_token(0, 2, num_rows, num_columns, array);
-  place_token(1, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+  placeToken(1, 2, num_rows, num_columns, array);
 
   CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 0, array[num_rows - 1][2]);
   CuAssertIntEquals_Msg(tc, "Drop 1 into empty column 3", 1, array[num_rows - 2][2]);
+
+}
+
+void placeToken_must_be_in_board(CuTest *tc) {
+  int num_rows = 3;
+  int num_columns = 3;
+  int array[num_rows][num_columns];
+  ct_initialize(num_rows, num_columns, array);
+
+  placeToken(0, 3, num_rows, num_columns, array);
+  placeToken(0, -1, num_rows, num_columns, array);
+
+  CuAssertIntEquals_Msg(tc, "Must drop into board.", -1, array[num_rows - 1][0]);
+  CuAssertIntEquals_Msg(tc, "Must drop into board.", -1, array[num_rows - 1][2]);
+
 
 }
 
@@ -388,21 +403,21 @@ void horizontal_row0(CuTest* tc)
   int answer;
   ct_initialize(num_rows, num_columns, array);
 
-  place_token(0, 0, num_rows, num_columns, array);
+  placeToken(0, 0, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Single 0 in column 0", NO_WINNER_YET, answer);
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "0s in columns {0,1}", NO_WINNER_YET, answer);
 
 
-  place_token(0, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "0s in columns {0,1, 2}", NO_WINNER_YET, answer);
 
 
-  place_token(0, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "4 in a row, horizontal", 0, answer);
 }
@@ -416,21 +431,21 @@ void vertical_column1(CuTest* tc)
   int answer;
   ct_initialize(num_rows, num_columns, array);
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Single 0 in column 1", NO_WINNER_YET, answer);
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Two 0s in column 1", NO_WINNER_YET, answer);
 
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Three 0s in column 1", NO_WINNER_YET, answer);
 
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "4 in a row, vertical", 0, answer);
 }
@@ -454,51 +469,51 @@ void forward_diagonal(CuTest* tc)
   ct_initialize(num_rows, num_columns, array);
 
   /* column 6*/
-  place_token(0, 6, num_rows, num_columns, array);
+  placeToken(0, 6, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 1", NO_WINNER_YET, answer);
 
   /* column 5*/
-  place_token(1, 5, num_rows, num_columns, array);
+  placeToken(1, 5, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 2", NO_WINNER_YET, answer);
 
-  place_token(0, 5, num_rows, num_columns, array);
+  placeToken(0, 5, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 3", NO_WINNER_YET, answer);
 
 
   /* column 4*/
-  place_token(1, 4, num_rows, num_columns, array);
+  placeToken(1, 4, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 4", NO_WINNER_YET, answer);
 
-  place_token(0, 4, num_rows, num_columns, array);
+  placeToken(0, 4, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 5", NO_WINNER_YET, answer);
 
-  place_token(1, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 6", NO_WINNER_YET, answer);
 
-  place_token(0, 4, num_rows, num_columns, array);
+  placeToken(0, 4, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 7", NO_WINNER_YET, answer);
 
  /* column 3 */
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 8", NO_WINNER_YET, answer);
 
-  place_token(0, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 9", NO_WINNER_YET, answer);
 
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 10", NO_WINNER_YET, answer);
 
-  place_token(0, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 11 -- Winner!", 0, answer);
 }
@@ -523,51 +538,51 @@ void backward_diagonal(CuTest* tc)
   ct_initialize(num_rows, num_columns, array);
 
   /* column 0*/
-  place_token(0, 0, num_rows, num_columns, array);
+  placeToken(0, 0, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 1", NO_WINNER_YET, answer);
 
   /* column 1*/
-  place_token(1, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 2", NO_WINNER_YET, answer);
 
-  place_token(0, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 3", NO_WINNER_YET, answer);
 
 
   /* column 2*/
-  place_token(1, 2, num_rows, num_columns, array);
+  placeToken(1, 2, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 4", NO_WINNER_YET, answer);
 
-  place_token(0, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 5", NO_WINNER_YET, answer);
 
-  place_token(1, 5, num_rows, num_columns, array);
+  placeToken(1, 5, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 6", NO_WINNER_YET, answer);
 
-  place_token(0, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 7", NO_WINNER_YET, answer);
 
  /* column 3 */
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 8", NO_WINNER_YET, answer);
 
-  place_token(0, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 9", NO_WINNER_YET, answer);
 
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 10", NO_WINNER_YET, answer);
 
-  place_token(0, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
   answer = winner(num_rows, num_columns, 4, array);
   CuAssertIntEquals_Msg(tc, "Step 11 -- Winner!", 0, answer);
 }
@@ -579,22 +594,22 @@ void kurmas_test(CuTest *tc) {
   int answer;
   ct_initialize(num_rows, num_columns, array);
 
-  place_token(0, 1, num_rows, num_columns, array);
-  place_token(1, 1, num_rows, num_columns, array);
-  place_token(0, 1, num_rows, num_columns, array);
-  place_token(1, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
 
-  place_token(1, 2, num_rows, num_columns, array);
-  place_token(0, 2, num_rows, num_columns, array);
-  place_token(1, 2, num_rows, num_columns, array);
-  place_token(0, 2, num_rows, num_columns, array);
+  placeToken(1, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+  placeToken(1, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
 
-  place_token(0, 3, num_rows, num_columns, array);
-  place_token(1, 3, num_rows, num_columns, array);
-  place_token(0, 3, num_rows, num_columns, array);
-  place_token(1, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
 
-  place_token(1, 4, num_rows, num_columns, array);
+  placeToken(1, 4, num_rows, num_columns, array);
 
   answer = winner(num_rows, num_columns, 4, array);
 
@@ -608,8 +623,9 @@ void kurmas_test(CuTest *tc) {
 CuSuite* c4_engine_suite() {
    CuSuite* suite = CuSuiteNew();
 
-   SUITE_ADD_TEST(suite, place_token_c1);
-   SUITE_ADD_TEST(suite, place_token_recognizes_already_placed_tokens);
+   SUITE_ADD_TEST(suite, placeToken_must_be_in_board);
+   SUITE_ADD_TEST(suite, placeToken_c1);
+   SUITE_ADD_TEST(suite, placeToken_recognizes_already_placed_tokens);
    SUITE_ADD_TEST(suite, winner_returns_horizontal_winner);
    SUITE_ADD_TEST(suite, winner_returns_vertical_winner);
    SUITE_ADD_TEST(suite, winner_returns_left_diagonal_winner);
