@@ -26,6 +26,19 @@ void checkRightDiagonal_returns_winner_if_there_is_one(CuTest *tc) {
   CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
 }
 
+void checkRightDiagonal_resets_count_properly(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[0][0] = 0;
+  board[1][1] = 0;
+  board[2][2] = 1;
+  board[3][3] = 1;
+
+  int answer = checkRightDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "No Winner.", -1, answer);
+}
+
 void checkRightDiagonal_returns_negative_one_if_no_winner(CuTest *tc) {
   int board[3][3];
   ct_initialize(3, 3, board);
@@ -616,7 +629,45 @@ void kurmas_test(CuTest *tc) {
   CuAssertIntEquals_Msg(tc, "Player 1", 1, answer);
 }
 
+void kurmas_test_2(CuTest *tc) {
+  int num_rows = 7;
+  int num_columns = 7;
+  int array[num_rows][num_columns];
+  int answer;
+  ct_initialize(num_rows, num_columns, array);
 
+  placeToken(1, 0, num_rows, num_columns, array);
+  placeToken(0, 0, num_rows, num_columns, array);
+  placeToken(0, 0, num_rows, num_columns, array);
+  placeToken(0, 0, num_rows, num_columns, array);
+
+  placeToken(0, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
+  placeToken(1, 1, num_rows, num_columns, array);
+  placeToken(0, 1, num_rows, num_columns, array);
+
+  placeToken(1, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+  placeToken(1, 2, num_rows, num_columns, array);
+  placeToken(0, 2, num_rows, num_columns, array);
+
+  placeToken(0, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
+  placeToken(1, 3, num_rows, num_columns, array);
+  placeToken(0, 3, num_rows, num_columns, array);
+
+  placeToken(0, 6, num_rows, num_columns, array);
+
+  answer = winner(num_rows, num_columns, 5, array);
+
+  CuAssertIntEquals_Msg(tc, "Player 1", -1, answer);
+}
 
 /*  setup */
 
@@ -650,6 +701,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_below_largest_diagonal);
    SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards);
    SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly);
 
    SUITE_ADD_TEST(suite, fullBoard_notices_a_full_board);
    SUITE_ADD_TEST(suite, fullBoard_notices_an_empty_board);
@@ -659,6 +711,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, forward_diagonal);
    SUITE_ADD_TEST(suite, backward_diagonal);
    SUITE_ADD_TEST(suite, kurmas_test);
+   SUITE_ADD_TEST(suite, kurmas_test_2);
    return suite;
 }
 

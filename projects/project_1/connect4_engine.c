@@ -79,6 +79,8 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
         if(count == length_to_win) {
           return player;
         }
+      } else {
+        count = 1;
       }
       column++;
     }
@@ -91,14 +93,18 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
     int player = -1;
     int column;
 
-    for(column = startColumn; column < columns; column++) {
+    for(column = startColumn; column < columns - 1; column++) {
       if(array[row][column] == array[row + 1][column + 1] && array[row][column] != -1) {
         count++;
+        printf("Match! setting count to %d\n", count);
+        fflush(stdout);
         player = array[row][column];
 
         if(count == length_to_win) {
           return player;
         }
+      } else {
+        count = 1;
       }
       row++;
     }
@@ -119,10 +125,10 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
 
     for(column = startColumn; column < columns - 1; column++) {
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
-
         count++;
-
         player = array[row][column];
+      } else {
+        count = 1;
       }
 
       if(count == length_to_win) {
@@ -141,13 +147,21 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
 
     for(row = startRow; row > 0 ; row--) {
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
+        printf("Match Row: %d, Col: %d --- Row: %d, Col: %d\n", row, column, row - 1, column + 1);
         count++;
         player = array[row][column];
+        printf("Match was for player %d\n", player);
+        printf("Changing count to %d\n\n", count);
+        fflush(stdout);
 
         if(count == length_to_win) {
+          printf("winner!, count: %d LTW: %d\n", count, length_to_win);
+          fflush(stdout);
           return player;
         }
         column++;
+      } else {
+        count = 1;
       }
     }
     startRow++;
@@ -171,7 +185,6 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   }
 
   winner = checkLeftDiagonal(num_rows, num_columns, array, length_to_win);
-
 
   if(winner != -1) {
     return winner;
