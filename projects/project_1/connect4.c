@@ -29,29 +29,36 @@ int main(int argc, char* argv[]) {
     int column;
     int isWinner = -1;
     int isFull = -1;
+    int isPlaced = 0;
     printf("Player %d's turn.\n", counter % 2);
     printf("Enter a column to place a token in: ");
 
     fgets(line, sizeof(line), stdin);
     sscanf(line, "%d", &column);
 
-    placeToken(counter % 2, column, rows, rows, board);
+    isPlaced = placeToken(counter % 2, column, rows, rows, board);
 
     isWinner = winner(rows, rows, length_to_win, board);
 
     isFull = fullBoard(rows, rows, board);
 
     if(isWinner != -1) {
+      printf("\n");
+      printBoard(rows, rows, board);
       printf("Player %d Wins!", counter % 2);
       exit(1);
     }
 
     if(isFull != -1) {
+      printf("\n");
+      printBoard(rows, rows, board);
       printf("Board is full, Stalemate!");
       exit(1);
     }
 
-    counter++;
+    if(isPlaced) {
+      counter++;
+    }
   }
 
 }

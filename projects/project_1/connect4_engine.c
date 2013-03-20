@@ -79,7 +79,8 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
         if(count == length_to_win) {
           return player;
         }
-      } else {
+      } 
+      else {
         count = 1;
       }
       column++;
@@ -96,8 +97,6 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
     for(column = startColumn; column < columns - 1; column++) {
       if(array[row][column] == array[row + 1][column + 1] && array[row][column] != -1) {
         count++;
-        printf("Match! setting count to %d\n", count);
-        fflush(stdout);
         player = array[row][column];
 
         if(count == length_to_win) {
@@ -127,7 +126,8 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
         count++;
         player = array[row][column];
-      } else {
+      } 
+      else {
         count = 1;
       }
 
@@ -147,20 +147,15 @@ int checkLeftDiagonal(int rows, int columns, int array[rows][columns], int lengt
 
     for(row = startRow; row > 0 ; row--) {
       if(array[row][column] == array[row - 1][column + 1] && array[row][column] != -1) {
-        printf("Match Row: %d, Col: %d --- Row: %d, Col: %d\n", row, column, row - 1, column + 1);
         count++;
         player = array[row][column];
-        printf("Match was for player %d\n", player);
-        printf("Changing count to %d\n\n", count);
-        fflush(stdout);
 
         if(count == length_to_win) {
-          printf("winner!, count: %d LTW: %d\n", count, length_to_win);
-          fflush(stdout);
           return player;
         }
         column++;
-      } else {
+      } 
+      else {
         count = 1;
       }
     }

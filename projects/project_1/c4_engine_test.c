@@ -26,6 +26,19 @@ void checkRightDiagonal_returns_winner_if_there_is_one(CuTest *tc) {
   CuAssertIntEquals_Msg(tc, "Player 0.", 0, answer);
 }
 
+void checkRightDiagonal_resets_count_properly_top_loop(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[1][0] = 0;
+  board[2][1] = 0;
+  board[3][2] = 1;
+  board[4][3] = 1;
+
+  int answer = checkRightDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "No Winner.", -1, answer);
+}
+
 void checkRightDiagonal_resets_count_properly(CuTest *tc) {
   int board[5][5];
   ct_initialize(5, 5, board);
@@ -128,6 +141,36 @@ void checkLeftDiagonal_returns_negative_one_if_no_winner(CuTest *tc) {
   int answer = checkLeftDiagonal(3, 3, board, 3);
   CuAssertIntEquals_Msg(tc, "No winner.", -1, answer);
 
+}
+
+void checkLeftDiagonal_properly_resets_count_top_loop(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[4][1] = 0;
+  board[3][2] = 0;
+  board[2][3] = 1;
+  board[1][4] = 1;
+
+  int answer = checkLeftDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "No winner.", -1, answer);
+
+}
+
+//TODO: FINISH
+void checkLeftDiagonal_properly_resets_count_bottom_loop(CuTest *tc) {
+  int board[5][5];
+  ct_initialize(5, 5, board);
+
+  board[3][0] = 0;
+  board[2][1] = 0;
+  board[1][2] = 1;
+  board[0][3] = 1;
+
+  printBoard(5, 5, board);
+
+  int answer = checkLeftDiagonal(5, 5, board, 3);
+  CuAssertIntEquals_Msg(tc, "No winner.", -1, answer);
 }
 
 void checkRows_returns_winner_if_exists(CuTest *tc) {
@@ -687,6 +730,8 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_below_largest_diagonal);
    SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_winner_if_there_is_one);
    SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_top_loop);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_bottom_loop);
 
    SUITE_ADD_TEST(suite, checkRows_returns_winner_if_exists);
    SUITE_ADD_TEST(suite, checkRows_returns_negative_one_if_no_winner);
@@ -702,6 +747,7 @@ CuSuite* c4_engine_suite() {
    SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards);
    SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner);
    SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly_top_loop);
 
    SUITE_ADD_TEST(suite, fullBoard_notices_a_full_board);
    SUITE_ADD_TEST(suite, fullBoard_notices_an_empty_board);
