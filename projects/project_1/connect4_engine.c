@@ -51,6 +51,8 @@ int checkColumns(int rows, int columns, int array[rows][columns], int length_to_
       if(array[j - 1][i] == array[j][i] && array[j][i] != -1) {
         count++;
         player = array[j][i];
+      } else {
+        count = 1;
       }
 
       if(count == length_to_win) {
@@ -71,7 +73,7 @@ int checkRightDiagonal(int rows, int columns, int array[rows][columns], int leng
     int player = -1;
     int row;
 
-    for(row = startRow; row < rows; row++) {
+    for(row = startRow; row < rows - 1; row++) {
       if(array[row][column] == array[row + 1][column + 1] && array[row][column] != -1) {
         count++;
         player = array[row][column];
@@ -186,6 +188,7 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   }
 
   winner = checkRightDiagonal(num_rows, num_columns, array, length_to_win);
+  printf("checkRightDiag winner: %d\n", winner);
 
   return winner;
 }

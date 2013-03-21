@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     if(isWinner != -1) {
       printf("\n");
       printBoard(rows, rows, board);
-      printf("Player %d Wins!", counter % 2);
+      printf("Player %d Wins!", isWinner);
       exit(1);
     }
 
