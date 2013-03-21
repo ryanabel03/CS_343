@@ -731,48 +731,48 @@ void kurmas_test_2(CuTest *tc) {
 CuSuite* c4_engine_suite() {
    CuSuite* suite = CuSuiteNew();
 
-   /* SUITE_ADD_TEST(suite, placeToken_must_be_in_board); */
-   /* SUITE_ADD_TEST(suite, placeToken_c1); */
-   /* SUITE_ADD_TEST(suite, placeToken_recognizes_already_placed_tokens); */
-   /* SUITE_ADD_TEST(suite, winner_returns_horizontal_winner); */
-   /* SUITE_ADD_TEST(suite, winner_returns_vertical_winner); */
-   /* SUITE_ADD_TEST(suite, winner_returns_left_diagonal_winner); */
-   /* SUITE_ADD_TEST(suite, winner_returns_right_diagonal_winner); */
-   /* SUITE_ADD_TEST(suite, winner_fixes_kurmas_failure); */
+   SUITE_ADD_TEST(suite, placeToken_must_be_in_board);
+   SUITE_ADD_TEST(suite, placeToken_c1);
+   SUITE_ADD_TEST(suite, placeToken_recognizes_already_placed_tokens);
+   SUITE_ADD_TEST(suite, winner_returns_horizontal_winner);
+   SUITE_ADD_TEST(suite, winner_returns_vertical_winner);
+   SUITE_ADD_TEST(suite, winner_returns_left_diagonal_winner);
+   SUITE_ADD_TEST(suite, winner_returns_right_diagonal_winner);
+   SUITE_ADD_TEST(suite, winner_fixes_kurmas_failure);
 
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_largest_diagonal); */
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_below_largest_diagonal); */
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_winner_if_there_is_one); */
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_negative_one_if_no_winner); */
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_top_loop); */
-   /* SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_bottom_loop); */
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_can_find_winners_above_below_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_winner_if_there_is_one);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_top_loop);
+   SUITE_ADD_TEST(suite, checkLeftDiagonal_properly_resets_count_bottom_loop);
 
-   /* SUITE_ADD_TEST(suite, checkRows_returns_winner_if_exists); */
-   /* SUITE_ADD_TEST(suite, checkRows_returns_negative_one_if_no_winner); */
+   SUITE_ADD_TEST(suite, checkRows_returns_winner_if_exists);
+   SUITE_ADD_TEST(suite, checkRows_returns_negative_one_if_no_winner);
 
-   /* SUITE_ADD_TEST(suite, checkColumns_returns_winner_if_one_exists); */
-   /* SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner); */
-   /* SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner); */
-   /* SUITE_ADD_TEST(suite, checkColumns_does_not_recognize_negative_one_as_winner); */
+   SUITE_ADD_TEST(suite, checkColumns_returns_winner_if_one_exists);
+   SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkColumns_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkColumns_does_not_recognize_negative_one_as_winner);
    SUITE_ADD_TEST(suite, checkColumns_properly_resets_count);
 
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_returns_winner_if_there_is_one); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_above_largest_diagonal); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_below_largest_diagonal); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly); */
-   /* SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly_top_loop); */
+   SUITE_ADD_TEST(suite, checkRightDiagonal_returns_winner_if_there_is_one);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_above_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_find_winners_below_largest_diagonal);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_can_use_larger_boards);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_returns_negative_one_if_no_winner);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly);
+   SUITE_ADD_TEST(suite, checkRightDiagonal_resets_count_properly_top_loop);
 
-   /* SUITE_ADD_TEST(suite, fullBoard_notices_a_full_board); */
-   /* SUITE_ADD_TEST(suite, fullBoard_notices_an_empty_board); */
+   SUITE_ADD_TEST(suite, fullBoard_notices_a_full_board);
+   SUITE_ADD_TEST(suite, fullBoard_notices_an_empty_board);
 
-   /* SUITE_ADD_TEST(suite, horizontal_row0); */
-   /* SUITE_ADD_TEST(suite, vertical_column1); */
-   /* SUITE_ADD_TEST(suite, forward_diagonal); */
-   /* SUITE_ADD_TEST(suite, backward_diagonal); */
-   /* SUITE_ADD_TEST(suite, kurmas_test); */
-   /* SUITE_ADD_TEST(suite, kurmas_test_2); */
+   SUITE_ADD_TEST(suite, horizontal_row0);
+   SUITE_ADD_TEST(suite, vertical_column1);
+   SUITE_ADD_TEST(suite, forward_diagonal);
+   SUITE_ADD_TEST(suite, backward_diagonal);
+   SUITE_ADD_TEST(suite, kurmas_test);
+   SUITE_ADD_TEST(suite, kurmas_test_2);
    return suite;
 }
 

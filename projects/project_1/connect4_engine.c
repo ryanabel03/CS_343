@@ -188,7 +188,6 @@ int winner(int num_rows, int num_columns, int length_to_win, int array[num_rows]
   }
 
   winner = checkRightDiagonal(num_rows, num_columns, array, length_to_win);
-  printf("checkRightDiag winner: %d\n", winner);
 
   return winner;
 }
