@@ -14,11 +14,10 @@ void stackDestroy(stack *stkPtr) {
     node = node->next;
     free(temp);
   }
-
-  free(stkPtr);
 }
 
 void stackPush(stack* stkPtr, stkElement element) {
+  printf("Pushed: %s\n", element);
   stkNode *node;
 
   node = malloc(sizeof(struct stkNode));
@@ -29,14 +28,12 @@ void stackPush(stack* stkPtr, stkElement element) {
 }
 
 stkElement stackPop(stack* stkPtr) {
-  if(stkPtr->top) {
-    stkNode* node = stkPtr->top;
-    stkElement elem = node->element;
-    stkPtr->top = node->next;
-    free(node);
-    return elem;
-  }
-  return NULL;
+  stkNode* head = stkPtr->top;
+  stkElement elm = head->element;
+  stkPtr->top = head->next;
+  free(head);
+  printf("Popped: %s\n", elm);
+  return elm;
 }
 
 stkElement stackPeek(stack* stkPtr) {
