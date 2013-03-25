@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "if2pf.h"
 
 int main(int argc, char* argv[]) {
@@ -10,7 +11,7 @@ int main(int argc, char* argv[]) {
   printf("(3) Quit\n");
 
   while(1) {
-    char line [1024];
+    char line[1024] = "";
 
     printf("Enter selection (1, 2, 3): ");
     fgets(line, sizeof(line), stdin);
@@ -31,8 +32,10 @@ int main(int argc, char* argv[]) {
       printf("Enter Postfix Expression: ");
       fgets(line, sizeof(line), stdin);
       line[strlen(line) - 1] ='\0';
+      char* toPass = malloc(sizeof(char) * 1024);
+      sprintf(toPass, "%s", line);
 
-      int answer = evaluatePostfix(line);
+      int answer = evaluatePostfix(toPass);
       printf("Value: %d\n", answer);
 
     }else if(option == 3) {

@@ -83,29 +83,36 @@ void popHigherOps(stack* s1, char* token, char* expression) {
 }
 
 int doOperation(stack* s1, char* operator) {
-  int a = atoi(stackPop(s1));
-  int b = atoi(stackPop(s1));
-  printf("Performing %d %s %d\n", b, operator, a);
+  char* opA = stackPop(s1);
+  char* opB = stackPop(s1);
+  int answer = 0;
+
+  int a = atoi(opA);
+  int b = atoi(opB);
 
   if(strstr(operator, "*")) {
-    return a * b;
+    answer = a * b;
 
   } else if(strstr(operator, "^")) {
-    int answer = pow(b, a);
-    return answer;
+    answer = pow(b, a);
 
   } else if(strstr(operator, "-"))  {
-    return b - a;
+    answer = b - a;
 
   } else if(strstr(operator, "/"))  {
-    return a / b;
+    answer = a / b;
 
   } else if(strstr(operator, "%")) {
-    return a % b;
+    answer = a % b;
 
   } else {
-    return a + b;
+    answer = a + b;
   }
+
+  free(opA);
+  free(opB);
+
+  return answer;
 }
 
 void popOpsNotLeftParen(stack* s1, char* expression) {
@@ -158,7 +165,6 @@ char* infixToPostfix(char* infixStr) {
 
 int evaluatePostfix(char* postfixStr) {
   int answer = 0;
-  char* ans = malloc (sizeof(char) * 1024);
 
   stack s1;
   stackInit(&s1);
@@ -168,19 +174,22 @@ int evaluatePostfix(char* postfixStr) {
 
   while(token != NULL) {
     if(isOperator(token)) {
+      char* ans = malloc (sizeof(char) * 1024);
       answer = doOperation(&s1, token);
       snprintf(ans, 1024, "%d", answer);
       stackPush(&s1, ans);
     } else {
-      stackPush(&s1, token);
+      char* ans = malloc (sizeof(char) * 1024);
+      snprintf(ans, 1024, "%s", token);
+      stackPush(&s1, ans);
     }
-
-
     token = strtok(NULL, " ");
   }
 
-  int returnAnswer = atoi(stackPop(&s1));
-  free(ans);
+  char* toFreeAnswer = stackPop(&s1);
+  int returnAnswer = atoi(toFreeAnswer);
+
   free(postfixStr);
+  free(toFreeAnswer);
   return returnAnswer;
 }

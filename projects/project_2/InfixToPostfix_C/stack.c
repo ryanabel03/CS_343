@@ -17,7 +17,6 @@ void stackDestroy(stack *stkPtr) {
 }
 
 void stackPush(stack* stkPtr, stkElement element) {
-  printf("Pushed: %s\n", element);
   stkNode *node;
 
   node = malloc(sizeof(struct stkNode));
@@ -32,7 +31,6 @@ stkElement stackPop(stack* stkPtr) {
   stkElement elm = head->element;
   stkPtr->top = head->next;
   free(head);
-  printf("Popped: %s\n", elm);
   return elm;
 }
 
