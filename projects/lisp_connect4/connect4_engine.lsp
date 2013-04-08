@@ -5,7 +5,7 @@
 
 ; Initialize an empty board of size rows X columns
 (defun make-board (rows columns)
-  (mapcar (lambda (blah) (make-list columns :initial-e  lement nil)) (intlist rows)))
+  (mapcar (lambda (blah) (make-list columns :initial-element nil)) (intlist rows)))
 
 (defun place-token (player column matrix)
   (if (null (nth column (nth (- (length (first matrix)) 1) matrix))) ; Is the element in the column of the last row null?
