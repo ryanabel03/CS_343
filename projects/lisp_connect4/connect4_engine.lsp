@@ -21,10 +21,12 @@
       nil))); It is full
 
 (defun check-rows(length-to-win player matrix)
-  (some #'(lambda (n) (= length-to-win n)) (mapcar (lambda (row) (count player row)) matrix)))
-
-(defun check-columns(length-to-win player matrix)
-  (some #'(lambda (n) (= length-to-win n)) (mapcar (lambda (column) (count player column)) (all-columns matrix))))
+  (if (= (length matrix) 0)
+    (return-from check-rows nil)
+    )
+  (let ((cnt 0))
+    (mapcar (lambda (row) (if (and (not (null row)) (= row player)) (progn (setq cnt (+ 1 cnt)) (if (= cnt length-to-win) (return-from check-rows player))) (setq cnt 0))) (first matrix))
+    (check-rows length-to-win player (rest matrix))))
 
 ;Get column colnum from a matrix
 (defun get-column (colnum matrix)
@@ -80,8 +82,8 @@
     ((check-rows win-length 1 (all-diagonals matrix)) 1)
     ((check-rows win-length 0 matrix) 0)
     ((check-rows win-length 1 matrix) 1)
-    ((check-columns win-length 0 matrix) 0)
-    ((check-columns win-length 1 matrix) 1)
+    ((check-rows win-length 0 (all-columns matrix)) 0)
+    ((check-rows win-length 1 (all-columns matrix)) 1)
     ))
 
 ;; This behaves like map, but also passes the index of the current
