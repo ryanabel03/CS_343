@@ -5,6 +5,7 @@ class C4Model
     @board = []
     @length_to_win = win_length
     @columns = columns
+    @player = 0
 
     (1..rows).each do |row|
       @board << Array.new(columns)
@@ -15,19 +16,30 @@ class C4Model
     @board
   end
 
-  def place_token(column, player)
-    @board.reverse.each do |row|
-      if row[column].nil?
-        row[column] = player
-        return "Placed #{player} in Column #{column}"
-      end
-    end
-    raise "That column is full"
+  def increment_turn
+    @player += 1
+    @player = @player % 2
   end
 
-  def check_rows(player)
+  def place_token(column)
+    if column > @columns - 1 || column < 0
+      return nil
+    end
+
+    @board.reverse.each do |row|
+      if row[column].nil?
+        row[column] = @player
+        increment_turn
+        return "Placed #{@player} in Column #{column}"
+      end
+    end
+    return nil
+  end
+
+  def check_rows(player, board=nil)
+    board ||= @board
     count = 0
-    @board.each do |row|
+    board.each do |row|
       row.each do |element|
         element == player ? count += 1 : count = 0
         if count == @length_to_win
@@ -38,11 +50,12 @@ class C4Model
     return false
   end
 
-  def all_columns
+  def all_columns(board=nil)
+    board ||= @board
     arr = []
     (0..@columns - 1).each do |column|
       sub_arr = []
-      @board.reverse.each do |row|
+      board.reverse.each do |row|
         sub_arr << row[column]
       end
       arr << sub_arr
@@ -72,27 +85,51 @@ class C4Model
     arr
   end
 
-  def check_forward_diagonal(player)
-    (0..@columns - 1).each do |column|
-      count = 0
-      @board.each_with_index do |row, index|
-        row[column] == @board[index + 1][column + 1] && !row[column].nil? ? count += 1 : count = 1
+  def backward_diagonals(board=nil)
+    arr = []
+    board ||= @board
 
-        if count == @length_to_win
-          return true
+    # At & Above Diagonal
+    (0..@columns - 1).each do |offset|
+      sub_arr = []
+      board.each_with_index do |row, index|
+        sub_arr << row[index + offset]
+      end
+      arr << sub_arr
+    end
+
+    # At & Below Diagonal
+    (0..@columns - 1).each do |offset|
+      sub_arr = []
+      all_columns(board).each_with_index do |column, index|
+        if offset - index < 0
+          sub_arr << nil
+        else
+          sub_arr << column[offset - index]
         end
       end
+      arr << sub_arr
     end
-    return false
+    arr
+  end
+
+  def check_forward_diagonal(player)
+    check_rows(player, forward_diagonals)
   end
 
   def check_backward_diagonal(player)
+    check_rows(player, backward_diagonals)
   end
 
-  def check_columns(player)
+  def check_diagonals(player)
+    check_forward_diagonal(player) || check_backward_diagonal(player) ? true : false
+  end
+
+  def check_columns(player, board=nil)
+    board ||= @board
     count = 0
     (0..@columns - 1).each do |column|
-      @board.each do |row|
+      board.each do |row|
         row[column] == player ? count += 1 : count = 0
 
         if count == @length_to_win
@@ -104,12 +141,12 @@ class C4Model
   end
 
   def who_won
-    # if check_rows(1) || check_columns(1) || check_diagonals(1)
-    #   return 1
-    # else if check_rows(0) || check_columns(0) || check_diagonals(0)
-    #   return 0
-    # else
-    #   return nil
-    # end
+    if check_rows(1) || check_columns(1) || check_diagonals(1)
+      return 1
+    elsif check_rows(0) || check_columns(0) || check_diagonals(0)
+      return 0
+    else
+      return nil
+    end
   end
 end
