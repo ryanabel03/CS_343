@@ -16,6 +16,14 @@ class C4Model
     @board
   end
 
+  def columns
+    @columns
+  end
+
+  def player
+    @player
+  end
+
   def increment_turn
     @player += 1
     @player = @player % 2
@@ -30,7 +38,7 @@ class C4Model
       if row[column].nil?
         row[column] = @player
         increment_turn
-        return "Placed #{@player} in Column #{column}"
+        return true
       end
     end
     return nil
@@ -38,8 +46,8 @@ class C4Model
 
   def check_rows(player, board=nil)
     board ||= @board
-    count = 0
     board.each do |row|
+      count = 0
       row.each do |element|
         element == player ? count += 1 : count = 0
         if count == @length_to_win
@@ -127,8 +135,8 @@ class C4Model
 
   def check_columns(player, board=nil)
     board ||= @board
-    count = 0
     (0..@columns - 1).each do |column|
+      count = 0
       board.each do |row|
         row[column] == player ? count += 1 : count = 0
 
@@ -147,6 +155,19 @@ class C4Model
       return 0
     else
       return nil
+    end
+  end
+
+  def print_board
+    @board.each do |row|
+      row.each do |element|
+        if element
+          print " #{element} |"
+        else
+          print "   |"
+        end
+      end
+      puts
     end
   end
 end

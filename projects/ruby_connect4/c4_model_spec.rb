@@ -312,6 +312,7 @@ describe C4Model do
   end
 
 
+  # Functional tests
   it 'recognizes a win in bottom row'  do
     verify_moves(make, [1, 1, 2, 2, 3, 3, 4]) 
   end
@@ -322,5 +323,54 @@ describe C4Model do
 
   it 'recognizes a diagonal win' do
     verify_moves(make, [0, 0, 0, 0, 2, 2, 2, 1, 1, 1, 1, 3])
+  end
+
+  it 'recognizes backward diagonal above mid' do
+    verify_moves(make, [6, 6, 5, 5, 0, 5, 4, 4, 4, 4, 0, 3, 3, 3, 3, 3])
+  end
+
+  it 'recognizes backward diagonal at mid' do
+    verify_moves(make, [6, 5, 5, 4, 4, 0, 4, 3, 3, 3, 3])
+  end
+
+  it 'recognizes backward diagonal below mid' do
+    verify_moves(make, [3, 2, 2, 1, 1, 0, 1, 0, 4, 0, 0])
+  end
+
+  it 'recognizes forward diagonal at mid' do
+    verify_moves(make, [0, 1, 1, 2, 2, 4, 2, 6, 3, 3, 3, 4, 3])
+  end
+
+  it 'recognizes forward diagonal above mid' do
+    verify_moves(make(4, 4, 3), [0, 0, 2, 1, 1, 1, 2, 2, 3, 2])
+  end
+
+  it 'recognizes forward diagonal below mid' do
+    verify_moves(make(4, 4, 3), [1, 2, 2, 3, 0, 3, 3])
+  end
+
+  it "fixes column check bug" do
+    engine = C4Model.new 4, 4, 3
+    engine.place_token 3
+    engine.place_token 3
+    engine.place_token 2
+    engine.place_token 2
+    engine.place_token 3
+    engine.place_token 2
+    engine.place_token 3
+
+    engine.who_won.should be_false
+  end
+
+  it "fixes row check bug" do
+    engine = C4Model.new 4, 4, 3
+
+    engine.place_token 0
+    engine.place_token 3
+    engine.place_token 1
+    engine.place_token 2
+    engine.place_token 3
+
+    engine.who_won.should be_false
   end
 end # describe
