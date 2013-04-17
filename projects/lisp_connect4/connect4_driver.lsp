@@ -1,8 +1,17 @@
 (load "connect4_engine.lsp")
 
-(defun print-board (board)
-  (mapcar (lambda (rows) (mapcar (lambda (element) (format t "| ~3A " element)) rows) (format t "~%")) board))
+(defun collist(a)
+  (if (= a 1)
+    '(0)
+    (cons (- a 1) (collist(- a 1)))))
 
+(defun print-columns (board)
+  (mapcar (lambda (colnum) (format t " ~3A" colnum)) (reverse (collist (length (first board)))))
+  (format t "~%"))
+
+(defun print-board (board)
+  (mapcar (lambda (rows) (mapcar (lambda (element) (if (null element) (format t "   |")  (format t "~3A|" element))) rows) (format t "~%")) board)
+  (print-columns board))
 
 (defun get-next-move (player numcols matrix)
   (let ((column nil))
@@ -61,7 +70,6 @@
         (setq board (place-token player next-token board))
         (if (not (equal (who-won win-length board) nil))
           (progn
-            (format t "Blah ~A~%" (who-won win-length board))
             (print-board board)
             (format t "Player ~A Wins!~%" (who-won win-length board))
             (return))

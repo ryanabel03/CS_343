@@ -8,15 +8,15 @@
   (mapcar (lambda (blah) (make-list columns :initial-element nil)) (intlist rows)))
 
 (defun place-token (player column matrix)
-  (if (null (nth column (nth (- (length (first matrix)) 1) matrix))) ; Is the element in the column of the last row null?
-    (setf (nth column (nth (- (length (first matrix)) 1) matrix)) player); Set the column to the current player
-    (place-token-recur player column (- (length (first matrix)) 2) matrix)); Go to the next row up 
+  (if (null (nth column (nth (- (length matrix) 1) matrix))) ; Is the element in the column of the last row null?
+    (setf (nth column (nth (- (length matrix) 1) matrix)) player); Set the column to the current player
+    (place-token-recur player column (- (length matrix) 2) matrix)); Go to the next row up
   matrix)
 
 (defun place-token-recur (player column row matrix)
   (if (null (nth column (nth row matrix)))  ;Is the element in (row, col) null
-    (setf (nth column (nth row matrix)) player); Set it to player 
-    (if (> row 0); base case 
+    (setf (nth column (nth row matrix)) player); Set it to player
+    (if (> row 0); base case
       (place-token-recur player column (- row 1) matrix); Move up a row
       nil))); It is full
 
@@ -77,7 +77,7 @@
           (all-higher-back-diagonals matrix)))
 
 (defun who-won (win-length matrix)
-  (cond 
+  (cond
     ((check-rows win-length 0 (all-diagonals matrix)) 0)
     ((check-rows win-length 1 (all-diagonals matrix)) 1)
     ((check-rows win-length 0 matrix) 0)
@@ -91,17 +91,17 @@
 ;; below.  (Notice that it is written to be tail-recursive.)
 (defun map-with-index (f list &optional head i)
  (let ((i (if i i 0))) ; set i to 0 if i is nil
-   (if list 
-       (map-with-index 
-	f 
-	(rest list) 
-	(cons (funcall f (first list)  i) head) 
+   (if list
+       (map-with-index
+	f
+	(rest list)
+	(cons (funcall f (first list)  i) head)
 	(+ 1 i))
      (reverse head))))
 
 ;get all columns
 (defun all-columns
   (matrix)
-  (map-with-index 
-   (lambda (column-value column-number) (get-column column-number matrix)) 
+  (map-with-index
+   (lambda (column-value column-number) (get-column column-number matrix))
    (first matrix)))
