@@ -1,9 +1,10 @@
 module HaskellExamples where
 
-  -- Recursive Palindrome
-  is_palindrome x = | length x <= 1 = True
-                      | head x == last x = is_palindrome_r . tail. init $ x
-                      | otherwise = False
+  --Recursive Palindrome
+  is_palindrome x =
+                    | length x <= 1 = True
+                    | head x == last x = is_palindrome_r . tail. init $ x
+                    | otherwise = False
 
 
   -- Quadratic Roots Function
