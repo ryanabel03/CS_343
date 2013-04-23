@@ -61,7 +61,7 @@
   (map-with-index (lambda (row index) (setq i (- i 1)) (diagonals-for-forward-column i matrix)) matrix)))
 
 (defun get-diagonal-too (row column matrix)
-  (if (>= row (length matrix))
+  (if (or (>= row (length matrix)) (< column 0))
     nil
     (append (list (item row column matrix)) (get-diagonal-too (+ 1 row) (- column 1) matrix))))
 

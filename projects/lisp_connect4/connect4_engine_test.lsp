@@ -29,7 +29,8 @@
 
 
 ;; The tests.  Add your own here.
- (run-tests '(("row 0" 7 7 4 (1 1 2 2 3 3 4))
+ (run-tests '(
+              ("row 0" 7 7 4 (1 1 2 2 3 3 4))
               ("row 0 length 5" 7 7 5 (1 1 2 2 3 3 4 4 5))
               ("column 0" 7 7 4 (0 1 0 1 0 1 0))
               ("backward diagonal below mid" 5 5 3 (0 0 0 1 1 1 2))
@@ -37,5 +38,6 @@
               ("backward diagonal above mid" 4 4 3 (1 1 1 1 2 3 2 3 2))
               ("forward diagonal above mid" 4 4 3 (0 0 1 1 3 1 3 2 2 3 2 2))
               ("forward diagonal below mid" 4 4 3 (0 2 1 3 2 3 3))
-              ("forward diagonal at mid" 7 7 4 (0 0 0 0 2 2 2 1 1 1 1 3))
+              ("horizontal top row tall" 10 6 4 (0 1 2 3  0 1 2 3  3 2 1 0  3 2 1 0
+                                                 0 0 0 0 0 0 1 1 1 1 1 1 2 2 2 2 2 2 5 3 3 3 3 3 5 3))             ("forward diagonal at mid" 7 7 4 (0 0 0 0 2 2 2 1 1 1 1 3))
               ))
